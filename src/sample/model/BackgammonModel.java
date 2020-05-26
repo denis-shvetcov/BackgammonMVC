@@ -98,8 +98,11 @@ public class BackgammonModel {
 
 
     private void prepareField() {
-        dice1Value = ((int) (Math.random() * 6)) + 1;
-        dice2Value = ((int) (Math.random() * 6)) + 1;
+        Map.Entry<Integer,Integer> values = setValues();
+        dice1Value = values.getKey();
+        dice2Value = values.getValue();
+//        dice1Value = ((int) (Math.random() * 6)) + 1;
+//        dice2Value = ((int) (Math.random() * 6)) + 1;
 
         player.setMoves(dice1Value, dice2Value);
 
@@ -115,6 +118,11 @@ public class BackgammonModel {
         lightUpMovable();
     }
 
+    Map.Entry<Integer,Integer> setValues() {
+        dice1Value = ((int) (Math.random() * 6)) + 1;
+        dice2Value = ((int) (Math.random() * 6)) + 1;
+        return new AbstractMap.SimpleEntry(dice1Value,dice2Value);
+    }
 
     private ColumnModel findColumn(double x, double y) {
         Side side;
@@ -185,13 +193,11 @@ public class BackgammonModel {
             }
 
             if (tryMove(to, check) == MoveType.NORMAL && (move == player.move1 || move == player.move2)) {
-//                lightColumns.add(to);
                 columns.add(Map.entry(to.getSide().getValue(), to.getColumnInd()));
                 continue;
             }
 
             if (tryMove(to, check) == MoveType.NORMAL && !columns.isEmpty()) {
-//                lightColumns.add(to);
                 columns.add(Map.entry(to.getSide().getValue(), to.getColumnInd()));
             }
         }
@@ -201,7 +207,6 @@ public class BackgammonModel {
 
     //подсвечивает фишки, которые могут куда-то сдвинуться, также устанавливается флаг, существуют ли они вообще
     // подсвечиваются в начале хода и каждый раз, когда игрок ставит фишку
-    // ходы игрока сортируются для удобства
     private void lightUpMovable() {
         removeMovable(); // удаляем светящиеся фишки
 
@@ -362,6 +367,7 @@ public class BackgammonModel {
         if (DARK_HOME.size() == 15) fullDarkHome = true;
     }
 
+    Check getLastCheck(int side, int ind) { return COLUMNS[side][ind].getLastCheck(); }
 
     private double rotatedX(double x) {
         return FIELD_WIDTH - x;

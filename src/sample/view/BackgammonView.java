@@ -104,7 +104,6 @@ public class BackgammonView extends Pane {
             }
         }
 
-
         play.getStyleClass().add("play-btn");
         play.setOnAction(event -> {
             RollType type = model.rollDice();
