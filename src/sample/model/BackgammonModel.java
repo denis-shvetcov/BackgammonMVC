@@ -98,11 +98,10 @@ public class BackgammonModel {
 
 
     private void prepareField() {
-        Map.Entry<Integer,Integer> values = setValues();
-        dice1Value = values.getKey();
-        dice2Value = values.getValue();
-//        dice1Value = ((int) (Math.random() * 6)) + 1;
-//        dice2Value = ((int) (Math.random() * 6)) + 1;
+
+        dice1Value = setValue();
+        dice2Value = setValue();
+
 
         player.setMoves(dice1Value, dice2Value);
 
@@ -118,10 +117,8 @@ public class BackgammonModel {
         lightUpMovable();
     }
 
-    Map.Entry<Integer,Integer> setValues() {
-        dice1Value = ((int) (Math.random() * 6)) + 1;
-        dice2Value = ((int) (Math.random() * 6)) + 1;
-        return new AbstractMap.SimpleEntry(dice1Value,dice2Value);
+    int setValue() {
+        return ((int) (Math.random() * 6)) + 1;
     }
 
     private ColumnModel findColumn(double x, double y) {
